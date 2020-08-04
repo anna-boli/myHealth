@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap");
+
+a:link { 
+    text-decoration: none;
+    font-family: 'Baloo Paaji 2', cursive;
+}
+
+#footer{
+    font-family: 'Baloo Paaji 2', cursive;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Baloo Paaji 2', cursive;
+}

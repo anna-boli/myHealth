@@ -1,0 +1,30 @@
+{% extends "myhealth/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Login
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>Log In</h3>
+        </section>
+    </div>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Log In</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'register' %}">Register Now</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

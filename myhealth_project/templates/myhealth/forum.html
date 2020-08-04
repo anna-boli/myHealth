@@ -1,0 +1,32 @@
+{% extends "myhealth/base.html" %}
+
+{% block title_block %}
+- Forum
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>Forum</h3>
+        </section>
+    </div>
+
+    {% for question in questions %}
+      <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="media text-muted pt-3 border-bottom border-gray">
+          <small class="text-muted">Date: {{ question.date_posted|date:"F d, Y" }}</small>
+          <hr>
+          <small class="text-muted">Author: {{ question.author }}</small>
+        </div>
+        <div class="media text-muted pt-3 ">
+          <h4 class="pb-2 mb-0">{{ question.title }}</h4>
+        </div>
+        <div class="media text-muted pt-3 ">
+          <p class="media-body pb-3 mb-0 small lh-125 ">
+            {{ question.content }}
+          </p>
+        </div>
+      </div>
+        {% endfor %}
+  
+{% endblock content %}

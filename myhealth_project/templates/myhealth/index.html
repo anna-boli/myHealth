@@ -1,0 +1,24 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<main role="main" class="bg-white">
+
+    <section class="bg-white jumbotron text-center">
+      <div class="container">
+        <img src="{% static 'img/logo/02_logo.jpg' %}" alt="Logo" width="50" height="50"/> 
+        <h1>MY HEALTH</h1>
+        <p class="lead text-muted">This is a website application to make a closer relationship among doctors and patients.</p>
+        <div class="border-top pt-3">
+          <small class="text-muted">
+            <p>
+              <a href="{% url 'login' %}" class="btn btn-outline-primary">Log In</a>
+              <a href="{% url 'register' %}" class="btn btn-outline-primary">Register</a>
+            </p>
+          </small>
+      </div>
+
+      </div>
+    </section>
+  
+  </main>
+{% endblock content %}

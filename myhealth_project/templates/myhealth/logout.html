@@ -1,0 +1,25 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+- Logout
+{% endblock %}
+
+{% block content %}
+<main role="main" class="bg-white">
+
+    <section class="bg-white jumbotron text-center">
+      <div class="container">
+        <img src="{% static 'img/logo/02_logo.jpg' %}" alt="Logo" width="50" height="50"/> 
+        <h1>MY HEALTH</h1>
+        <p class="lead text-muted">You have been logged out</p>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href="{% url 'login' %}" class="btn btn-outline-primary">Log In</a>
+            </small>
+        </div>
+      </div>
+    </section>
+  
+  </main>
+{% endblock content %}
