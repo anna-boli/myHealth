@@ -1,48 +1,148 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from myhealth.models import PatientProfile, DoctorProfile
+from django.contrib.auth import get_user_model
+from myhealth.models import Record
+from myhealth.models import Appointment
+from myhealth.models import Post
+from myhealth.models import Reply
 
-# Form for user registration
-class UserRegisterForm(UserCreationForm):
-    USERTYPE = (
-        ('0', '----------'),
-        ('1', 'Patient'),
-        ('2', 'Doctor'),
-        ('3', 'Administrator'),
-        ('4', 'IT staff')
-    )
 
-    GENDER = (
-        ('0', '----------'),
-        ('1', 'Male'),
-        ('2', 'Female')
-    )
-
+#  patient registration form
+class PatientForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
     
-    email = forms.EmailField(label='Email')
-    usertype = forms.ChoiceField(label='User Type', widget=forms.Select(), choices=USERTYPE,initial=USERTYPE[0]) 
-    GPNo = forms.IntegerField(label='GP Number')
-    firstname = forms.CharField(label='First Name', max_length=30)
-    secondname = forms.CharField(label='Second Name', max_length=30)
-    gender = forms.ChoiceField(label='Gender', widget=forms.Select(), choices=GENDER, initial=GENDER[0]) 
-    birth = forms.DateField(label='Date of Birth', widget = forms.SelectDateWidget(years = range(2020, 1930, -1)))
-    address = forms.CharField(label='Address', max_length=255)
-    telephone = forms.IntegerField(label='Telephone')
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ('email','password1','password2','GPNO','first_name','last_name',)
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_patient = True
+        if commit:
+            user.save()
+        return user
+    
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'patient'
+        return super().get_context_data(**kwargs)
+
+
+#  doctor registration form
+class DoctorForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ('email','password1','password2','GPNO','first_name','last_name',)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_doctor = True
+        if commit:
+            user.save()
+        return user
+    
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'doctor'
+        return super().get_context_data(**kwargs)
+
+
+#  user update information
+class UserUpadteForm(forms.ModelForm):
+    email = forms.EmailField()
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
 
     class Meta:
-        model = User
-        fields = [
-            'username',
-            'email',
-            'password1',
-            'password2',
-            'usertype',
-            'GPNo',
-            'firstname',
-            'secondname',
-            'gender',
-            'birth',
-            'address',
-            'telephone'
-        ]
+        model = get_user_model()
+        fields = ('email','GPNO','first_name','last_name',)
 
+
+#  update the patient's profile form
+class PatientProfileForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        (0, '------------'),
+        (1, 'female'),
+        (2, 'male'),
+
+    )
+    gender = forms.IntegerField(widget=forms.Select(choices=GENDER_CHOICES))
+    birth = forms.DateField(label='D.O.B', input_formats=['%Y-%m-%d'], help_text='Please enter the format with "YYYY-MM-DD"')
+    address = forms.CharField(label='Address',max_length=255, help_text='Please enter a valid address')
+    tel = forms.CharField(max_length=20, label='Telephone', help_text='Please enter a valid phone number')
+
+    class Meta:
+        model = PatientProfile
+        fields = ('gender','birth','address','tel','image',)
+
+
+#  update the doctor's profile form
+class DoctorProfileForm(forms.ModelForm):
+    staffID = forms.CharField(label='ID',help_text='Please enter the vaild number', max_length=10)
+
+    GENDER_CHOICES = (
+        (0, '------------'),
+        (1, 'female'),
+        (2, 'male'),
+
+    )
+    gender = forms.IntegerField(widget=forms.Select(choices=GENDER_CHOICES))
+    birth = forms.DateField(label='D.O.B', input_formats=['%Y-%m-%d'], help_text='Please enter the format with "YYYY-MM-DD"')
+    address = forms.CharField(label='Personal Address',max_length=255, help_text='Please enter the personal address')
+    work_address = forms.CharField(label='Work Address', max_length=255, help_text='Please enter the work address')
+    tel = forms.CharField(max_length=20, label='Telephone', help_text='Please enter an valid phone number')
+    direction = forms.CharField(max_length=255, label='Main direction', help_text='Please enter your main direction')
+    description = forms.CharField(max_length=255, label='Personal description', help_text='Please enter short self description')
+
+    class Meta:
+        model = DoctorProfile
+        fields = ('staffID','gender','birth','address','work_address','tel','direction','description','image',)
+
+
+#  patient record form
+class RecordCreationForm(forms.ModelForm):
+    GPNO = forms.CharField(label='Patient GPNO',help_text='Please enter this patient GP number', max_length=10)
+    sympton = forms.CharField(max_length=500, widget=forms.Textarea())
+    treatment = forms.CharField(max_length=500, widget=forms.Textarea())
+    prescription = forms.CharField(max_length=500, widget=forms.Textarea())
+    
+    class Meta:
+        model = Record
+        fields = ('GPNO','sympton','treatment','prescription',)
+
+
+#  appointment creation by doctor
+class AppointCreationForm(forms.ModelForm):
+    
+    class Meta:
+        model=Appointment
+        fields=("date","time_start","time_end",)
+
+
+#  post a question
+class PostForm(forms.ModelForm):
+    content = forms.CharField(max_length=500, widget=forms.Textarea())
+
+    class Meta:
+        model = Post
+        fields = ("title","content",)
+
+#  reply
+class ReplyForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={
+        'class':'form-control',
+        'placeholder':'Type your reply',
+        'rows':'4'
+    }))
+
+    class Meta:
+        model = Reply
+        fields = ("content",)

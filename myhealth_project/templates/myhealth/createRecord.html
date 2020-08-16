@@ -1,0 +1,54 @@
+{% extends "myhealth/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Create Patient Record
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>Create a Record</h3>
+        </section>
+    </div>
+
+    <div>
+      <div class="table-responsive bg-white">
+        <h4>Patient Info with GPNO</h4>
+        <br>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>GPNO</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for patient in patientinfo %}
+            <tr>
+              <td>{{patient.user.GPNO}}</td>
+              <td>{{patient.user.first_name}}</td>
+              <td>{{patient.user.last_name}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+
+    <div class="content-section">
+      <h4>Please enter the record details</h4>
+        <form id="create_record_form" method="POST" action="{% url 'create_record' %}" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ record_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Create Record</button>
+                <a class="btn btn-outline-secondary" href="{% url 'home' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

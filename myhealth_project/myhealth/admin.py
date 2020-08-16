@@ -1,7 +1,65 @@
 from django.contrib import admin
-from myhealth.models import Question
-from myhealth.models import Profile
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from myhealth.models import User, user_type
+from myhealth.models import PatientProfile,DoctorProfile
+from myhealth.models import Record
+from myhealth.models import Appointment
+from myhealth.models import Post
+from myhealth.models import Reply
 
-# Register all models to admin
-admin.site.register(Question)
-admin.site.register(Profile)
+class UserAdmin(BaseUserAdmin):
+    fieldsets = (
+        (None, {'fields': ('GPNO','email', 'password', 'first_name', 'last_name', 'last_login')}),
+        ('Permissions', {'fields': (
+            'is_active',
+            'is_staff',
+            'is_superuser',
+            'is_patient',
+            'is_doctor',
+            'groups',
+            'user_permissions',
+        )}),
+    )
+    add_fieldsets = (
+        (
+            None,
+            {
+                'classes': ('wide',),
+                'fields': ('email', 'password1', 'password2')
+            }
+        ),
+    )
+
+    list_display = ('GPNO','email', 'first_name', 'last_name', 'is_staff', 'is_patient', 'is_doctor', 'last_login')
+    list_filter = ('is_staff', 'is_superuser','is_patient', 'is_doctor', 'is_active', 'groups')
+    search_fields = ('email',)
+    ordering = ('email',)
+    filter_horizontal = ('groups', 'user_permissions',)
+
+
+admin.site.register(User, UserAdmin)
+
+class PatientAdmin(admin.ModelAdmin):
+    list_display = ('user', 'gender', 'birth', 'address', 'tel', 'image')
+admin.site.register(PatientProfile,PatientAdmin)
+
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'staffID', 'gender', 'birth', 'address', 'work_address', 'tel', 'direction', 'description', 'image')
+admin.site.register(DoctorProfile,DoctorAdmin)
+
+admin.site.register(user_type)
+class RecordAdmin(admin.ModelAdmin):
+    list_display = ('patient','creator','sympton', 'treatment', 'prescription', 'date_created')
+admin.site.register(Record, RecordAdmin)
+
+class AppointAdmin(admin.ModelAdmin):
+    list_display = ('user','date', 'time_start','time_end','appointment_with')
+admin.site.register(Appointment, AppointAdmin)
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content','timestamp','author','featured')
+admin.site.register(Post, PostAdmin)
+
+admin.site.register(Reply)
+
+

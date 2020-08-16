@@ -1,0 +1,21 @@
+{% extends "myhealth/base.html" %}
+
+{% block title_block %}
+- Search
+{% endblock %}
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <section class="text-center">
+        <h3>Search Result</h3>
+    </section>
+</div>
+
+<h4>This is the result for your quick search</h4>
+{% for post in queryset %}
+<a href="{{post.get_absolute_url }}" class="h6">{{ post.title }}</a>
+<br/>
+{% endfor %}
+
+
+{% endblock content %}

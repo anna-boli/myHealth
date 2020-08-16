@@ -5,10 +5,23 @@ a:link {
     font-family: 'Baloo Paaji 2', cursive;
 }
 
+form, input, input[type="hidden" i] {
+    font-family: 'Baloo Paaji 2', cursive !important;
+}
+label{
+    font-family: 'Baloo Paaji 2', cursive !important;
+}
 #footer{
     font-family: 'Baloo Paaji 2', cursive;
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, .p{
+    font-family: 'Baloo Paaji 2', cursive;
+}
+
+.table{
+    font-family: 'Baloo Paaji 2', cursive;
+}
+table, thead, tr, th, td{
     font-family: 'Baloo Paaji 2', cursive;
 }

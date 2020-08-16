@@ -2,20 +2,21 @@
 {% load crispy_forms_tags %}
 
 {% block title_block %}
-- Registration
+- Doctor Registration
 {% endblock %}
 
 {% block content %}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <section class="text-center">
-            <h3>Register</h3>
+            <h3>Register as a Doctor</h3>
         </section>
     </div>
     <div class="content-section">
-        <form method="POST">
+        <form id="user_form" method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                {{ form|crispy }}
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Register</button>

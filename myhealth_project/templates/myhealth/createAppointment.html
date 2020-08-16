@@ -1,0 +1,111 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Create Appointment
+{% endblock %}
+
+
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <section class="text-center">
+    <h3>Create Appointment</h3>
+  </section>
+</div>
+<div class="col-sm-12">
+  <form method="POST" id="create_appointment_form" action="{% url 'create_appointment' %}"
+    enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row" id="datepairExample">
+      <div class="col">
+        <input type="text" class="form-control date start" name="{{appointment_form.date.name}}" 
+        required id="id_{{appointment_form.date.name}}" placeholder="Date Ex. 30.10.12 ">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control time start" name="{{appointment_form.time_start.name}}" 
+        required id="id_{{appointment_form.time_start.name}}" required placeholder="Time Ex. 01.00 PM">
+      </div> to
+      <div class="col">
+        <input type="text" class="form-control time end" name="{{appointment_form.time_end.name}}" 
+        required id="id_{{appointment_form.time_end.name}}" required placeholder="Time Ex. 01.30 PM ">
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-primary" type="submit">Add
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+          <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        </svg></button>
+      </div>
+    </div>
+  </form>
+  <br />
+</div>
+<div>
+  <div class="table-responsive bg-white">
+    <h4>Appointment List</h4>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Doctor Image</th>
+          <th>Doctor Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th></th>
+        </tr>
+      </thead>
+      {% for appoint in appoints %} <!--For Loop for all post -->
+      {% if appoint.appointment_with != '' %} <!--Filter only those are booked-->
+      <tbody>
+        <tr>
+          <td><img class="card_image" style="height:50px; width:50px; margin-top: 0px;"
+            src="{{appoint.user.doctorprofile.image.url}}"></td>
+          <td>{{appoint.user.first_name}} {{appoint.user.last_name}}</td>
+          <td>{{appoint.date}}</td>
+          <td>{{appoint.time_start}} - {{appoint.time_end}}</td>
+          <td><button title="Already booked, Not editable" type="button" class="btn btn-primary">Booked by&nbsp;&nbsp;{{appoint.appointment_with}}</button></td>
+        </tr>
+      </tbody>
+      {% endif %}
+     
+      {% if appoint.appointment_with == '' %}<!--Filter Those not Booked yet-->
+      <tbody>
+        <tr>
+          <td><img class="card_image" style="height:50px; width:50px; margin-top: 0px;"
+            src="{{appoint.user.doctorprofile.image.url}}"></td>
+          <td>{{appoint.user.first_name}} {{appoint.user.last_name}}</td>
+          <td>{{appoint.date}}</td>
+          <td>{{appoint.time_start}} - {{appoint.time_end}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<!--datepicker source-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'date/jquery.timepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'date/bootstrap-datepicker.js' %}"></script>
+<script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
+<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
+<script>
+  $('#datepairExample .time').timepicker({
+    'showDuration': true,
+    'timeFormat': 'g:ia'
+  });
+  
+  $('#datepairExample .date').datepicker({
+    'format': 'm/d/yyyy',
+    'autoclose': true
+  });
+  $('#datepairExample').datepair();
+</script>
+
+
+{% endblock content %}

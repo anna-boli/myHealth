@@ -1,0 +1,47 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+- Patient Appointment List
+{% endblock %}
+
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <section class="text-center">
+    <h3>My Appointment List</h3>
+  </section>
+</div>
+
+
+<div>
+  <div class="table-responsive bg-white">
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Doctor Image</th>
+          <th>Doctor Name</th>
+          <th>Date</th>
+          <th>Book Time</th>
+        </tr>
+      </thead>
+      {% for appoint in appoints %}
+      <!--For Loop for all post -->
+      <tbody>
+        <tr>
+          <td><img class="card_image" style="height:50px; width:50px; margin-top: 0px;"
+              src="{{appoint.user.doctorprofile.image.url}}"></td>
+          <td>{{appoint.user.first_name}} {{appoint.user.last_name}}</th>
+          <td>{{appoint.date}}</td>
+          <td>
+            {{appoint.time_start}} - {{appoint.time_end}}
+          </td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+  
+{% endblock content %}

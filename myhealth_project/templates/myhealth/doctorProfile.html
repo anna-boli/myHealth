@@ -1,0 +1,47 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- DoctorProfile
+{% endblock %}
+
+{% block content %}
+
+    <div class="container marketing bg-white rounded shadow-sm">
+        <!-- Two columns for user -->
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="media center-block my-3 p-3 bg-white rounded shadow-sm">
+                    <div class="card text-center">
+                        <img src="{{user.doctorprofile.image.url}}" alt="{{user.first_name}} {{user.last_name}}" class="card_image">
+                        <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <a href="{% url 'doctor_profile' %}" class="btn btn-outline-secondary">&nbsp;&nbsp;&nbsp;Profile&nbsp;&nbsp;&nbsp;</a>
+                        <p></p>
+                        <a href="{% url 'doctor_appointment' %}" class="btn btn-outline-secondary">Schedule</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
+                    <section class="text-center">
+                        <h3>Profile Info</h3>
+                    </section>
+                </div>
+                <form method="POST" action="{% url 'doctor_profile' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {{ u_form|crispy }}
+                        {{ p_form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.row -->
+    
+    </div>
+{% endblock content %}

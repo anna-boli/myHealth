@@ -1,0 +1,101 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Forum
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section>
+            <a href="{% url 'forum' %}" class="text-right">Back to forum</a>
+            <h3 class="text-center">Details</h3>
+        </section>
+    </div>
+
+    <!-- Post Detail -->
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="media text-muted">
+            <h4 class="ml-2 mb-0"><a class="article-title" href="{{ post.get_absolute_url }}">Title:&nbsp;&nbsp;{{ post.title }}</a></h4>
+          </div>
+
+        <div class="media text-muted pt-3">
+            <img src="{{post.author.patientprofile.image.url}}" alt="{{post.author.first_name}}"
+                class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+            <p class="media-body border-bottom border-gray">
+                <small class="text-gray-dark">
+                    Author:&nbsp;&nbsp;{{ post.author.first_name }}&nbsp;&nbsp;{{ post.author.last_name }}
+                </small>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <small class="text-gray-dark">&nbsp;&nbsp;{{ post.timestamp|timesince }} &nbsp;&nbsp;ago</small>
+
+                {% if post.author == user %}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'post_update' id=post.id %}" class="btn btn-outline-primary">Update</a>
+                <a href="{% url 'post_delete' id=post.id %}" class="btn btn-outline-danger">Delete</a>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="media text-muted pt-1">
+            <p class="media-body ml-5 mb-0 lh-125 ">
+                {{ post.content }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Reply Form -->
+    {% if request.user.is_authenticated and request.user.is_doctor%}
+    <div class="content-section">
+        <h4>Leave your reply</h4>
+        <form id="reply_form" method="POST" action="{% url 'post_detail' id=post.id %}" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ reply_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Reply</button>
+                <a class="btn btn-outline-secondary" href="{% url 'forum' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+    {% elif request.user.is_authenticated and request.user.is_patient%}
+    {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">Login to reply</a>
+    {% endif %}
+
+
+    <!-- Reply Display -->
+
+    <div class=" rounded bg-grey media text-muted pt-5">
+      <h4> All reply <span class="no-of-comments">({{ post.replys.count }})</span></h4>
+    </div>
+    
+    {% for reply in post.get_replys %}
+    <div>
+      <div class="media text-muted pt-1">
+        {% if reply.user.doctorprofile %}
+        <img src="{{ reply.user.doctorprofile.image.url }}" alt="{{ reply.user.first_name }} {{ reply.user.last_name }}" class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+        {% else %}
+        <img src="{% static 'img/user.svg' %}" alt="default" class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+        {% endif %}
+        <p class="media-body border-bottom border-gray text-black">
+          <small class="text-black">
+            <strong>&nbsp;&nbsp;{{ reply.user.first_name }} &nbsp;{{ reply.user.last_name }}</strong>
+          </small>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          <small class="text-black">{{ reply.timestamp|timesince }} &nbsp;&nbsp;ago</small>
+        </p>
+      </div>
+    
+      <div class="media text-muted pb-4">
+        <p class="media-body ml-5 mb-0 lh-125 ">
+          {{ reply.content }}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+
+  
+{% endblock content %}

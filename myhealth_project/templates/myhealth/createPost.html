@@ -1,0 +1,28 @@
+{% extends "myhealth/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Create a Post
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>{{ title }} a Post</h3>
+        </section>
+    </div>
+
+    <div class="content-section">
+      <h4>Please enter the post details</h4>
+        <form id="create_post_form" method="POST" action="{% url 'post_create' %}" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ post_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Post</button>
+                <a class="btn btn-outline-secondary" href="{% url 'forum' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

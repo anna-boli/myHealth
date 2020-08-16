@@ -1,0 +1,61 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+- Doctor List
+{% endblock %}
+
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <section class="text-center">
+        <h3>Doctor List</h3>
+    </section>
+</div>
+<div class="my-3 p-3 rounded">
+    <section class="text-right">
+        <a href="{% url 'make_appointment' %}" class="btn btn-outline-primary">Make Appointment</a>
+    </section>
+</div>
+
+
+{% for doctor in doctorlists %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="media text-muted pt-3">
+                <img src="{{doctor.image.url}}" alt="{{doctor.user.first_name}} {{doctor.user.last_name }}"
+                    class="bd-placeholder-img rounded-circle" width="100" height="100">
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="row mb-3">
+                <div class="col-sm-6 themed-grid-col">
+                    <h6><strong>Name:</strong>&nbsp;&nbsp;{{ doctor.user.first_name }}  {{ doctor.user.last_name }}</h6>
+                </div>
+                <div class="col-sm-6 themed-grid-col">
+                    <h6><strong>Email:</strong>&nbsp;&nbsp;{{ doctor.user.email }}</h6>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-6 themed-grid-col">
+                    <h6><strong>Direction:</strong>&nbsp;&nbsp;{{ doctor.direction }}</h6>
+                </div>
+                <div class="col-sm-6 themed-grid-col">
+                    <h6><strong>Work Address:</strong>&nbsp;&nbsp;{{ doctor.work_address }}</h6>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-12 themed-grid-col">
+                    <h6><strong>Short Description:</strong>&nbsp;&nbsp;{{ doctor.description }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+  
+  
+{% endblock content %}

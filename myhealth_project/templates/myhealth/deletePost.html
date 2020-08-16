@@ -1,0 +1,28 @@
+{% extends "myhealth/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Delete a Question
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>Delete this Question</h3>
+        </section>
+    </div>
+
+    <div class="content-section">
+        <form id="post_form" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <h3>Please Confirm Delete </h3>
+                <h4> Are you sure you want to delete this question "{{ object.title }}"</h4>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
