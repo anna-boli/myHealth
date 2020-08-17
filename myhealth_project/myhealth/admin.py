@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from myhealth.models import User, user_type
+from myhealth.models import User
 from myhealth.models import PatientProfile,DoctorProfile,AdminProfile
 from myhealth.models import Record
 from myhealth.models import Appointment
@@ -52,7 +52,6 @@ class AdminAdmin(admin.ModelAdmin):
     list_display = ('user', 'gender', 'birth', 'address', 'work_address', 'tel', 'image')
 admin.site.register(AdminProfile,AdminAdmin)
 
-admin.site.register(user_type)
 class RecordAdmin(admin.ModelAdmin):
     list_display = ('patient','creator','sympton', 'treatment', 'prescription', 'date_created')
 admin.site.register(Record, RecordAdmin)

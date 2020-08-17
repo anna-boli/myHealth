@@ -34,10 +34,10 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email=None, password=None, GPNO=None, first_name=None, last_name=None, **extra_fields):
-        return self._create_user(email, password, GPNO, first_name, last_name, False, False, False, False, **extra_fields)
+        return self._create_user(email, password, GPNO, first_name, last_name, False, False, False, False, False, **extra_fields)
 
     def create_superuser(self, email, password, GPNO, first_name, last_name, **extra_fields):
-        user = self._create_user(email, password, GPNO, first_name, last_name, True, True, False, False, **extra_fields)
+        user = self._create_user(email, password, GPNO, first_name, last_name, True, True, False, False, False, **extra_fields)
         user.save(using=self._db)
         return user
 
@@ -153,20 +153,6 @@ class AdminProfile(models.Model):
 
     def __str__(self):
         return self.tel
-
-
-class user_type(models.Model):
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    is_patient = models.BooleanField(default=False)
-    is_doctor = models.BooleanField(default=False)
-    
-
-    def __str__(self):
-        if self.is_patient == True:
-            return User.get_email(self.user) + " - is_patient"
-        else:
-            return User.get_email(self.user) + " - is_doctor"
-
 
 # doctor can create patient record
 class Record(models.Model):

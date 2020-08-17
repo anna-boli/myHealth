@@ -1,0 +1,221 @@
+[
+    {
+        "model": "myhealth.User",
+        "pk": 1,
+        "fields": {
+            "email": "2435638L@student.gla.ac.uk",
+            "GPNO": "1234",
+            "first_name": "Bo",
+            "last_name": "Li",
+            "is_staff": "True",
+            "is_superuser":"True",
+            "password": "pbkdf2_sha256$150000$0d7Kg70apmSK$G5yfaiUFKgUfmMgV5A1t/gUhbHX2jtHDARmOdBGsCB0=" ,
+            "date_joined":"2020-08-17 17:26:01.113379"
+        }
+      },
+      {
+        "model": "myhealth.User",
+        "pk": 2,
+        "fields": {
+            "email": "patient@myhealth.com",
+            "GPNO": "2345",
+            "first_name": "Rose",
+            "last_name": "Wang",
+            "is_patient": "True",
+            "password": "pbkdf2_sha256$150000$PpOCZN7wCG2x$BnEHIr75OHVWFYWbkl3Hv8YcgVhfAsQBFHmWmjrtZfo=" ,
+            "date_joined":"2020-08-17 17:26:01.113379"
+        }
+      },
+      {
+        "model": "myhealth.User",
+        "pk": 3,
+        "fields": {
+            "email": "doctor@myhealth.com",
+            "GPNO": "3456",
+            "first_name": "Kexin",
+            "last_name": "Yue",
+            "is_doctor": "True",
+            "password": "pbkdf2_sha256$150000$mBjKNPBQIMlB$wY6oT9D5exp6B0i4PE/uvmDcVjFnIMoyJk32jJETY84=" ,
+            "date_joined":"2020-08-17 17:26:01.113379"
+        }
+      },
+      {
+        "model": "myhealth.User",
+        "pk": 4,
+        "fields": {
+            "email": "admin@myhealth.com",
+            "GPNO": "4567",
+            "first_name": "Ella",
+            "last_name": "Chen",
+            "is_staff": "True",
+            "is_superuser": "True",
+            "is_admin": "True",
+            "password": "pbkdf2_sha256$150000$DUwY1URjPQbV$IqPdKs62YRbt1tlUjtzSNJeGfGisOZ8gnqsV2oTpyIs=" ,
+            "date_joined":"2020-08-17 17:26:01.113379"
+        }
+      },
+      {
+        "model": "myhealth.PatientProfile",
+        "pk": 1,
+        "fields": {
+            "gender": 1,
+            "birth": "1992-08-26",
+            "address": "145 Kelvingaugh Street",
+            "tel": "+447845083540",
+            "image": "profile_pics/patient1_2gCr2QB.jpg",
+            "user_id": 2
+        }
+      },
+      {
+        "model": "myhealth.DoctorProfile",
+        "pk": 1,
+        "fields": {
+            "staffID": 1,
+            "gender": 2,
+            "birth": "1995-08-31",
+            "address": "21 Beith St, Glasgow",
+            "work_address":"West Glasgow Ambulatory Care Hospital",
+            "tel": "+447845083541",
+            "direction":"Cardiology",
+            "description": "Provides medical care to patients who have problems with their heart or circulation",
+            "image": "profile_pics/doctor1_3hqLpDs.jpg",
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.AdminProfile",
+        "pk": 1,
+        "fields": {
+            "gender": 1,
+            "birth": "1995-08-20",
+            "address": "Kelvin Court, 30 Yorkhill St, Yorkhill Parade, Glasgow",
+            "work_address":"West Glasgow Ambulatory Care Hospital",
+            "tel": "+447845083544",
+            "image": "profile_pics/admin.jpg",
+            "user_id": 4
+        }
+      },
+      {
+        "model": "myhealth.Appointment",
+        "pk": 1,
+        "fields": {
+            "date": "9/19/2020",
+            "time_start": "1:00pm",
+            "time_end": "2:00pm",
+            "appointment_with": "Rose  LI (GPNO: 2345)",
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.Appointment",
+        "pk": 2,
+        "fields": {
+            "date": "9/24/2020",
+            "time_start": "2:00pm",
+            "time_end": "3:00pm",
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.Post",
+        "pk": 1,
+        "fields": {
+            "title": "What should my daily intake of calories be?",
+            "content": "Calories are important for our life, so what should my daily intake of calories be?",
+            "timestamp": "2020-08-17 17:59:15.238729",
+            "featured": 1,
+            "author_id": 2
+        }
+      },
+      {
+        "model": "myhealth.Post",
+        "pk": 2,
+        "fields": {
+            "title": "Do I need vitamin supplements?",
+            "content": "Vitamins and minerals, such as iron, calcium and vitamin C, are essential nutrients. Do I need vitamin supplements for daliy life?",
+            "timestamp": "2020-08-17 18:59:15.238729",
+            "featured": 1,
+            "author_id": 2
+        }
+      },
+      {
+        "model": "myhealth.Post",
+        "pk": 3,
+        "fields": {
+            "title": "Can reheating rice cause food poisoning?",
+            "content": "Rice is a necessity of life, I am confused that can reheating rice cause food poisoning?",
+            "timestamp": "2020-08-17 16:59:15.238729",
+            "featured": 1,
+            "author_id": 2
+        }
+      },
+      {
+        "model": "myhealth.Reply",
+        "pk": 1,
+        "fields": {
+            "timestamp": "2020-08-17 18:14:40.091026",
+            "content": "Yes, you can get food poisoning from eating reheated rice. It's not the reheating that causes the problem, but the way the rice has been stored before it's reheated.",
+            "post_id": 3,
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.Reply",
+        "pk": 2,
+        "fields": {
+            "timestamp": "2020-08-17 18:30:10.304953",
+            "content": "Most people do not need to take vitamin supplements and can get all the vitamins and minerals they need by eating a healthy, balanced diet.",
+            "post_id": 2,
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.Reply",
+        "pk": 3,
+        "fields": {
+            "timestamp": "2020-08-17 18:30:10.304953",
+            "content": "An ideal daily intake of calories varies depending on age, metabolism and levels of physical activity, among other things. Generally, the recommended daily calorie intake is 2,000 calories a day for women and 2,500 for men.",
+            "post_id": 1,
+            "user_id": 3
+        }
+      },
+      {
+        "model": "myhealth.Reply",
+        "pk": 4,
+        "fields": {
+            "timestamp": "2020-08-17 18:30:10.304953",
+            "content": "Tips on serving rice safely: Ideally, serve rice as soon as it has been cooked. If that is not possible, cool the rice as quickly as possible (ideally within 1 hour). Keep rice in the fridge for no more than 1 day until reheating. When you reheat rice, always check that it's steaming hot all the way through. Do not reheat rice more than once.",
+            "post_id": 3,
+            "user_id": 4
+        }
+      },
+      {
+        "model": "myhealth.Record",
+        "pk": 1,
+        "fields": {
+            "sympton": "Have a headache, suffered from hypertension and accompanying heart problems",
+            "treatment": "Take medicine, avoid eating crude, cold and stimulating food, no tea and more rest will be needed during this period. Simple lifestyle changes can help reduce high blood pressure.",
+            "prescription": "Eat a low-fat, balanced diet",
+            "date_created": "2020-08-17 18:28:39.660066",
+            "creator_id": 1,
+            "doctor_email_id": 3,
+            "patient_id": 2
+        }
+      },
+      {
+        "model": "myhealth.Record_allowed_users",
+        "pk": 1,
+        "fields": {
+            "record_id": 1,
+            "user_id": 2
+        }
+      },
+      {
+        "model": "myhealth.Record_allowed_users",
+        "pk": 2,
+        "fields": {
+            "record_id": 1,
+            "user_id": 3
+        }
+      }
+]
