@@ -7,38 +7,37 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container marketing bg-white rounded shadow-sm">
-        <!-- Two columns for user -->
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="media center-block my-3 p-3 bg-white rounded shadow-sm">
-                    <div class="card text-center">
-                        <img src="{{user.patientprofile.image.url}}" alt="{{user.first_name}} {{user.last_name}}" class="card_image">
-                        <div class="card-body">
+<div class="container marketing bg-white rounded shadow-sm">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="media center-block my-3 p-3 bg-white rounded shadow-sm">
+                <div class="card text-center">
+                    <img src="{{user.patientprofile.image.url}}" alt="{{user.first_name}} {{user.last_name}}"
+                        class="card_image">
+                    <div class="card-body">
                         <h5 class="card-title"></h5>
                         <a href="{% url 'patient_profile' %}" class="btn btn-outline-secondary">Profile</a>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
-                <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
-                    <section class="text-center">
-                        <h3>Profile Info</h3>
-                    </section>
-                </div>
-                <form method="POST" action="{% url 'patient_profile' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {{ u_form|crispy }}
-                        {{ p_form|crispy }}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">Save</button>
-                    </div>
-                </form>
+        </div>
+        <div class="col-lg-9">
+            <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
+                <section class="text-center">
+                    <h3>Profile Info</h3>
+                </section>
             </div>
-        </div><!-- /.row -->
-    
+            <form method="POST" action="{% url 'patient_profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ u_form|crispy }}
+                    {{ p_form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock content %}

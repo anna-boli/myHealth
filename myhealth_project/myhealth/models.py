@@ -9,7 +9,7 @@ from django.urls import reverse
 # custom manage user model
 class UserManager(BaseUserManager):
 
-    def _create_user(self, email, password, GPNO, first_name, last_name, is_staff, is_superuser, is_patient, is_doctor, **extra_fields):
+    def _create_user(self, email, password, GPNO, first_name, last_name, is_staff, is_superuser, is_patient, is_doctor, is_admin, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address.')
         now = timezone.now()
@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
             is_superuser=is_superuser,
             is_patient=is_patient,
             is_doctor=is_doctor,
+            is_admin=is_admin,
             last_login=now,
             date_joined=now,
             **extra_fields
@@ -51,6 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_patient = models.BooleanField(default=False)
     is_doctor = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -132,6 +134,27 @@ class DoctorProfile(models.Model):
         return self.staffID
 
 
+# information about administrators' profile
+class AdminProfile(models.Model):
+    user = models.OneToOneField(get_user_model(), related_name='adminprofile', on_delete=models.CASCADE)
+
+    GENDER_CHOICES = (
+        (0, '------------'),
+        (1, 'female'),
+        (2, 'male'),
+
+    )
+    gender = models.IntegerField(choices=GENDER_CHOICES, default=0)
+    birth = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    work_address = models.CharField(max_length=255, blank=True, null=True)
+    tel = models.CharField(max_length=20, blank=True, null=True)
+    image = models.ImageField(default='default.jpg',upload_to='profile_pics')
+
+    def __str__(self):
+        return self.tel
+
+
 class user_type(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     is_patient = models.BooleanField(default=False)
@@ -156,6 +179,9 @@ class Record(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     allowed_users = models.ManyToManyField(get_user_model(),related_name='allowed_users')
 
+    class Meta:
+        ordering = ('date_created',)
+
     def __str__(self):
         return self.sympton
     
@@ -164,6 +190,7 @@ class Record(models.Model):
 
     def __str__(self):
         return self.prescription
+
 
 
 # doctor-patient appointment
@@ -219,16 +246,3 @@ class Reply(models.Model):
         return self.user.email
     
 
-
-# # information about doctors' reply
-# class Reply(models.Model):
-#     respondent = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments')
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE )
-#     date_reply = models.DateTimeField(default=timezone.now)
-#     comment = models.TextField()
-
-#     class Meta:
-#         ordering =('date_reply',)
-
-#     def __str__(self):
-#         return self.comment[:20]

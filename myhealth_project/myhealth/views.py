@@ -3,10 +3,11 @@ from django.urls import reverse
 from django.utils import formats
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from myhealth.models import PatientProfile, DoctorProfile, AdminProfile
 from myhealth.forms import PatientForm, PatientProfileForm
 from myhealth.forms import DoctorForm, DoctorProfileForm
+from myhealth.forms import AdminForm, AdminProfileForm
 from myhealth.forms import UserUpadteForm
-from myhealth.models import PatientProfile, DoctorProfile
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -20,16 +21,7 @@ from myhealth.models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from myhealth.forms import PostForm, ReplyForm
-# from django.views.generic import ListView
-# from django.views.generic import DetailView
-# from django.views.generic import CreateView
-# from django.views.generic import UpdateView
-# from django.views.generic import DeleteView
-# from myhealth.models import Question
-# from myhealth.forms import PostQuestionForm
-# from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.contrib.auth.mixins import UserPassesTestMixin
-# from myhealth.forms import ReplyForm
+
 
 
 # home page for all users
@@ -98,6 +90,34 @@ def doctor_register(request):
 
 
 
+# administrator registration
+def admin_register(request):
+
+    registered = False
+
+    if request.method == 'POST':
+        user_form = AdminForm(request.POST)
+        profile_form = AdminProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            registered = True
+            email = user_form.cleaned_data.get('email')
+            messages.success(request, f'The account has been created and you can login now.')
+            return redirect('login')
+    else:
+        user_form = AdminForm()
+        profile_form = AdminProfileForm()
+    return render(request, "myhealth/adminRegister.html", {'user_form': user_form, 'profile_form': profile_form})
+
+
+
 # the patient profile page after login for updating the information
 @login_required
 def patient_profile(request):
@@ -145,6 +165,27 @@ def doctor_profile(request):
     return render(request, 'myhealth/doctorProfile.html',context)
 
 
+# the administrator profile page after login for updating the information
+@login_required
+def admin_profile(request):
+    if request.method == 'POST':
+        u_form = UserUpadteForm(request.POST, instance=request.user)
+        p_form = AdminProfileForm(request.POST, request.FILES, instance=request.user.adminprofile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'The account has been updated.')
+            return redirect('admin_profile')
+
+    else:
+        u_form = UserUpadteForm(instance=request.user)
+        p_form = AdminProfileForm(instance=request.user.adminprofile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'myhealth/adminProfile.html',context)
  
 # doctors to create records
 @login_required
@@ -182,22 +223,54 @@ def allowed_records(request):
     return render(request,"myhealth/recordList.html")
 
 
+@login_required
+def get_record(request, pk):
+    record = get_object_or_404(Record, pk=pk)
+    user = User.objects.get(email=request.user.email)
+
+    # return the record if the user have authentication
+    if record in user.allowed_users.all():
+        return render(request, "myhealth/recordDetail.html", {'record':record, 'user':user})
+    else:
+        return redirect('/')
+
+
+
 
 # show all the patients
 @login_required
 def patient_list(request):
+    queryset = User.objects.all()
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) 
+        ).distinct()
+    else:
+        queryset=queryset#search end
+
     context_dict = {
-        'patientlists': PatientProfile.objects.all()
+        'queryset': queryset
     }
     return render(request, "myhealth/patientList.html", context=context_dict)
-
 
 
 # show all the doctors
 @login_required
 def doctor_list(request):
+    queryset = User.objects.all()
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) 
+        ).distinct()
+    else:
+        queryset=queryset#search end
+
     context_dict = {
-        'doctorlists': DoctorProfile.objects.all()
+        'queryset': queryset
     }
     return render(request, "myhealth/doctorList.html", context=context_dict)
 
@@ -229,14 +302,30 @@ def create_appointment(request):
 
     return render(request, "myhealth/createAppointment.html", context=context_dict)
 
+# doctor delete the not booked appointment
+@login_required
+def appointment_delete(request,id):
+    appointment = get_object_or_404(Appointment, id=id)
+    appointment.delete()
+    messages.success(request, f'You have delete this appointment.')
+    return redirect(reverse("create_appointment"))
+
 
 
 # patients select/make an appointment
 @login_required 
 def make_appointment(request):
-    context_dict = {}
-    appointment_list= Appointment.objects.all()
-    context_dict['appoints'] = appointment_list
+    queryset = Appointment.objects.all().order_by("user")
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(date__icontains=query) 
+        ).distinct()
+    else:
+        queryset=queryset#search end
+    context_dict = {
+        'queryset': queryset
+    }
     return render(request, "myhealth/makeAppointment.html", context=context_dict )
 
 
@@ -252,6 +341,7 @@ def appointment_book(request, id):#activate after clicking book now button
     messages.success(request, f'You have booked successfully.')
     return redirect("patient_appointment")
 
+
 # display all the appointments made by this patient
 @login_required
 def patient_appointment(request):
@@ -265,26 +355,72 @@ def patient_appointment(request):
 # display all booked appointments for the doctor
 @login_required
 def doctor_appointment(request):
-    context_dict = {}
     name=request.user.get_user()
     appointment_list = Appointment.objects.all().order_by("-id").filter(user=request.user)
-    context_dict['appoints'] = appointment_list
+    queryset = appointment_list
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(date__icontains=query)
+        ).distinct()
+    else:
+        queryset=queryset#search end
+
+    context_dict = {
+        'queryset': queryset
+    }
     return render(request, "myhealth/doctorAppointment.html", context=context_dict )
+
+
+
+
+
+
+@login_required
+def appointments(request):
+    context_dict = {}
+    appointment_list = Appointment.objects.all().order_by("user")
+    context_dict['appoints'] = appointment_list
+    return render(request, "myhealth/appointments.html", context=context_dict )
+
+@login_required
+def appointments_delete(request,id):
+    appointment = get_object_or_404(Appointment, id=id)
+    appointment.delete()
+    messages.success(request, f'You have delete this appointment.')
+    return redirect(reverse("appointments"))
+
+
+
+
+
+
+
+
+
+
 
 
 # quick search the target post
 def search(request):
-    queryset = Post.objects.all()
+    queryset_post = Post.objects.all()
+    # queryset_user = User.objects.all()
     query = request.GET.get('q')
     if query:
-        queryset = queryset.filter(
+        queryset_post = queryset_post.filter(
             Q(title__icontains=query) |
             Q(content__icontains=query)
         ).distinct()
+
+        # queryset_user = queryset_user.filter(
+        #     Q(first_name__icontains=query) |
+        #     Q(last_name__icontains=query)
+        # ).distinct()
     context = {
-        'queryset': queryset
+        # 'queryset_user': queryset_user,
+        'queryset_post': queryset_post
     }
-    return render(request, "myhealth/searchPost.html", context)
+    return render(request, "myhealth/searchResult.html", context)
 
 
 # forum for doctor-customer communication
@@ -390,3 +526,4 @@ def post_delete(request,id):
 #  post = get_object_or_404(Post, id=id)
 #  post.delete()
 #  return redirect(reverse("forum"))
+

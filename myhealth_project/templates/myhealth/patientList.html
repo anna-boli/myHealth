@@ -12,47 +12,64 @@
         <h3>Patient List</h3>
     </section>
 </div>
-<div class="my-3 p-3 rounded">
-    <section class="text-right">
-        <a href="{% url 'create_record' %}" class="btn btn-outline-primary">Make Record</a>
-    </section>
-</div>
 
 
-{% for patient in patientlists %}
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="media text-muted pt-3">
-                <img src="{{patient.image.url}}" alt="{{patient.user.first_name}} {{ patient.user.last_name }}"
-                    class="bd-placeholder-img rounded-circle" width="100" height="100">
-            </div>
-        </div>
-        <div class="col-lg-10">
-            <div class="row mb-3">
-                <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>GPNO:</strong>&nbsp;&nbsp;{{ patient.user.GPNO }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Date of Birth:</strong>&nbsp;&nbsp;{{ patient.birth }}</h6>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Patient Name:</strong>&nbsp;&nbsp;{{ patient.user.first_name }}   {{ patient.user.last_name }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Address:</strong>&nbsp;&nbsp;{{ patient.address }}</h6>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Telephone:</strong>&nbsp;&nbsp;{{ patient.tel }}</h6>
-                </div>
-            </div>
-        </div>
+<div class="row mb-2">
+    <!-- Search -->
+    <div class="col-md-6">
+        <form action="{% url 'patient_list' %}" class="search-form form-inline my-3 my-lg-1">
+            <input type="search" class="form-control mr-sm-2" style="width:400px;" name="q"
+                placeholder="Search by patient name">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </div>
+
+    <!-- Create Record -->
+    {% if user.is_authenticated and user.is_doctor %}
+    <div class="col-md-6">
+        <section class="text-right">
+            <a href="{% url 'create_record' %}" class="btn btn-outline-primary">Create Record</a>
+        </section>
+    </div>
+    {% endif %}
 </div>
-{% endfor %}
+
+  {% for patient in queryset %}
+  {% if patient.is_patient %}
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <div class="row">
+          <div class="col-lg-2">
+              <div class="media text-muted pt-3">
+                  <img src="{{patient.patientprofile.image.url}}" alt="{{patient.first_name}} {{ patient.last_name }}"
+                      class="bd-placeholder-img rounded-circle" width="100" height="100">
+              </div>
+          </div>
+          <div class="col-lg-10">
+              <div class="row mb-3">
+                  <div class="col-sm-4 themed-grid-col">
+                      <h6><strong>GPNO:</strong>&nbsp;&nbsp;{{ patient.GPNO }}</h6>
+                  </div>
+                  <div class="col-sm-4 themed-grid-col">
+                      <h6><strong>Date of Birth:</strong>&nbsp;&nbsp;{{ patient.patientprofile.birth }}</h6>
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <div class="col-sm-4 themed-grid-col">
+                      <h6><strong>Patient Name:</strong>&nbsp;&nbsp;{{ patient.first_name }}   {{ patient.last_name }}</h6>
+                  </div>
+                  <div class="col-sm-4 themed-grid-col">
+                      <h6><strong>Address:</strong>&nbsp;&nbsp;{{ patient.patientprofile.address }}</h6>
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <div class="col-sm-4 themed-grid-col">
+                      <h6><strong>Telephone:</strong>&nbsp;&nbsp;{{ patient.patientprofile.tel }}</h6>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endif %}
+  {% endfor %}
   
 {% endblock content %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from myhealth.models import PatientProfile, DoctorProfile
+from myhealth.models import PatientProfile, DoctorProfile, AdminProfile
 from django.contrib.auth import get_user_model
 from myhealth.models import Record
 from myhealth.models import Appointment
@@ -51,6 +51,31 @@ class DoctorForm(UserCreationForm):
     
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'doctor'
+        return super().get_context_data(**kwargs)
+
+
+#  administrator registration form
+class AdminForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ('email','password1','password2','GPNO','first_name','last_name',)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        if commit:
+            user.save()
+        return user
+    
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'admin'
         return super().get_context_data(**kwargs)
 
 
@@ -105,6 +130,26 @@ class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = DoctorProfile
         fields = ('staffID','gender','birth','address','work_address','tel','direction','description','image',)
+
+
+
+#  update the administrator's profile form
+class AdminProfileForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        (0, '------------'),
+        (1, 'female'),
+        (2, 'male'),
+
+    )
+    gender = forms.IntegerField(widget=forms.Select(choices=GENDER_CHOICES))
+    birth = forms.DateField(label='D.O.B', input_formats=['%Y-%m-%d'], help_text='Please enter the format with "YYYY-MM-DD"')
+    address = forms.CharField(label='Personal Address',max_length=255, help_text='Please enter the personal address')
+    work_address = forms.CharField(label='Work Address', max_length=255, help_text='Please enter the work address')
+    tel = forms.CharField(max_length=20, label='Telephone', help_text='Please enter an valid phone number')
+
+    class Meta:
+        model = AdminProfile
+        fields = ('gender','birth','address','work_address','tel','image',)
 
 
 #  patient record form

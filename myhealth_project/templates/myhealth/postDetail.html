@@ -9,7 +9,7 @@
 {% block content %}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <section>
-            <a href="{% url 'forum' %}" class="text-right">Back to forum</a>
+            <a href="{% url 'forum' %}" class="text-left">Back to Forum</a>
             <h3 class="text-center">Details</h3>
         </section>
     </div>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Reply Form -->
-    {% if request.user.is_authenticated and request.user.is_doctor%}
+    {% if request.user.is_authenticated and request.user.is_doctor %}
     <div class="content-section">
         <h4>Leave your reply</h4>
         <form id="reply_form" method="POST" action="{% url 'post_detail' id=post.id %}" enctype = "multipart/form-data">
@@ -60,7 +60,21 @@
             </div>
         </form>
     </div>
-    {% elif request.user.is_authenticated and request.user.is_patient%}
+    {% elif request.user.is_authenticated and request.user.is_admin %}
+    <div class="content-section">
+      <h4>Leave your reply</h4>
+      <form id="reply_form" method="POST" action="{% url 'post_detail' id=post.id %}" enctype = "multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              {{ reply_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-primary" type="submit">Reply</button>
+              <a class="btn btn-outline-secondary" href="{% url 'forum' %}">Cancel</a>
+          </div>
+      </form>
+  </div>
+    {% elif request.user.is_authenticated and request.user.is_patient %}
     {% else %}
     <a href="{% url 'login' %}" class="btn btn-primary">Login to reply</a>
     {% endif %}
@@ -77,6 +91,8 @@
       <div class="media text-muted pt-1">
         {% if reply.user.doctorprofile %}
         <img src="{{ reply.user.doctorprofile.image.url }}" alt="{{ reply.user.first_name }} {{ reply.user.last_name }}" class="bd-placeholder-img mr-2 rounded" width="32" height="32">
+        {% elif reply.user.adminprofile %}
+        <img src="{{ reply.user.adminprofile.image.url }}" alt="{{ reply.user.first_name }} {{ reply.user.last_name }}" class="bd-placeholder-img mr-2 rounded" width="32" height="32">
         {% else %}
         <img src="{% static 'img/user.svg' %}" alt="default" class="bd-placeholder-img mr-2 rounded" width="32" height="32">
         {% endif %}

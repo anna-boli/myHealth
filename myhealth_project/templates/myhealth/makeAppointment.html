@@ -15,6 +15,19 @@
 </div>
 
 
+<div class="row mb-2">
+  <!-- Search -->
+  <div class="col-md-6">
+      <form action="{% url 'make_appointment' %}" class="search-form form-inline my-3 my-lg-1">
+          <input type="search" class="form-control mr-sm-2" style="width:400px;" name="q"
+              placeholder="Search by date (M/D/YYYY)">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+  </div>
+
+  <div class="col-md-6"></div>
+</div>
+
 <div>
   <div class="table-responsive bg-white">
     <h4>Available Appointment List</h4>
@@ -24,26 +37,26 @@
         <tr>
           <th>Doctor Image</th>
           <th>Doctor Name</th>
+          <th>Direction</th>
           <th>Date</th>
           <th>Available Free Time</th>
           <th></th>
         </tr>
       </thead>
-      {% for appoint in appoints %}
-      <!--For Loop for all post -->
+      {% for appoint in queryset %}
       {% if appoint.appointment_with == '' %}
-      <!--Filter Those not Booked yet-->
       <tbody>
         <tr>
           <td><img class="card_image" style="height:50px; width:50px; margin-top: 0px;"
               src="{{appoint.user.doctorprofile.image.url}}"></td>
           <td>{{appoint.user.first_name}} {{appoint.user.last_name}}</td>
+          <td>{{appoint.user.doctorprofile.direction}}</td>
           <td>{{appoint.date}}</td>
           <td>
             {{appoint.time_start}} - {{appoint.time_end}}
           </td>
           <td>
-            <a href='{% url "appointment_update" id=appoint.id %}'>
+            <a href='{% url "appointment_book" id=appoint.id %}'>
               <button class="btn btn-outline-primary" type="submit">Book Now</button>
             </a>
           </td>

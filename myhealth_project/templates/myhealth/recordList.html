@@ -14,72 +14,40 @@
 
 <div class="container-fluid bg-white">
     <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-        <div class="sidebar-sticky pt-3 justify-content-between ">
-        </div>
-      </nav>
+        <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+            <div class="table-responsive bg-white">
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Record No.#</th>
+                            <th>Patient GPNO</th>
+                            <th>Patient Name</th>
+                            <th>Doctor Name</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-     
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Details</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-          </div>
-        </div>
-
-        {% for record in user.allowed_users.all %}
-        <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
-            <div class="row mb-3">
-                <div class="col-sm-4 themed-grid-col">
-                    <h6>Patient GPNO: {{ record.patient.GPNO }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col">
-                    <h6>Name: {{ record.patient.first_name }}   {{ record.patient.last_name }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col"></div>
+                    {% for record in user.allowed_users.all %}
+                    <tbody class="text-center">
+                        <tr>
+                            <td>{{ record.id }}</td>
+                            <td>{{ record.patient.GPNO }}</td>
+                            <td>{{ record.patient.first_name }}&nbsp;&nbsp;{{ record.patient.last_name }}</td>
+                            <td>{{ record.creator.user.first_name }}&nbsp;&nbsp;{{ record.creator.user.last_name }}</td>
+                            <td>{{ record.date_created }}</td>
+                            <td>
+                                <a href="record/{{ record.id }}">
+                                    <button class="btn btn-outline-primary" type="submit">Details</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
             </div>
-            <div class="row mb-3">
-                <div class="col-sm-4 themed-grid-col">
-                    <h6>Doctor: {{ record.creator.user.first_name }}   {{ record.creator.user.last_name }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col">
-                    <h6>Date: {{ record.date_created }}</h6>
-                </div>
-                <div class="col-sm-4 themed-grid-col"></div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-2 themed-grid-col">
-                    <h5>Sympton:</h5>
-                </div>
-                <div class="col-sm-8 themed-grid-col">
-                    <h6>{{ record.sympton }}</h6>
-                </div>
-                <div class="col-sm-2 themed-grid-col"></div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-2 themed-grid-col">
-                    <h5>Treatment:</h5>
-                </div>
-                <div class="col-sm-8 themed-grid-col">
-                    <h6>{{ record.treatment }}</h6>
-                </div>
-                <div class="col-sm-2 themed-grid-col"></div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-2 themed-grid-col">
-                    <h5>Prescription:</h5>
-                </div>
-                <div class="col-sm-8 themed-grid-col">
-                    <h6>{{ record.prescription }}</h6>
-                </div>
-                <div class="col-sm-2 themed-grid-col"></div>
-            </div>
-
-        </div>
-        {% endfor %}
-      </main>
-    </div>
-  </div>
-
-  
+    </main>
+</div>
+</div>
 {% endblock content %}

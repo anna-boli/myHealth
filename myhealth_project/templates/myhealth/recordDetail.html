@@ -1,0 +1,79 @@
+{% extends "myhealth/base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+- Patient Records
+{% endblock %}
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <section>
+        <a href="{% url 'record_list' %}" class="text-left">Back to Record List</a>
+        <h3  class="text-center">Patient History Record</h3>
+    </section>
+</div>
+
+<div class="container-fluid bg-white">
+    <div class="row">
+      <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Details</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+          </div>
+        </div>
+
+        <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
+            <div class="row mb-3">
+                <div class="col-sm-4 themed-grid-col">
+                    <h6><strong>Patient GPNO:</strong>&nbsp;&nbsp;{{ record.patient.GPNO }}</h6>
+                </div>
+                <div class="col-sm-4 themed-grid-col">
+                    <h6><strong>Patient Name:</strong>&nbsp;&nbsp;{{ record.patient.first_name }}&nbsp;&nbsp;{{ record.patient.last_name }}</h6>
+                </div>
+                <div class="col-sm-4 themed-grid-col"><h6><strong>Doctor:</strong>&nbsp;&nbsp;{{ record.creator.user.first_name }}&nbsp;&nbsp;{{ record.creator.user.last_name }}</h6></div>
+            </div>
+            <div class="row mb-3 ">
+                <div class="col-sm-4 themed-grid-col">
+                    <h6><strong>Date:</strong>&nbsp;&nbsp;{{ record.date_created }}</h6>
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3 text-left">
+                <div class="col-sm-4 themed-grid-col">
+                    <h5><strong>Sympton:</strong></h5>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 themed-grid-col">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ record.sympton }}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3 text-left">
+                <div class="col-sm-4 themed-grid-col">
+                    <h5><strong>Treatment:</strong></h5>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 themed-grid-col">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ record.treatment }}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row mb-3 text-left">
+                <div class="col-sm-4 themed-grid-col">
+                    <h5><strong>Prescription:</strong></h5>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 themed-grid-col">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ record.prescription }}</p>
+                </div>
+            </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  
+{% endblock content %}

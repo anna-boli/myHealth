@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from myhealth.models import User, user_type
-from myhealth.models import PatientProfile,DoctorProfile
+from myhealth.models import PatientProfile,DoctorProfile,AdminProfile
 from myhealth.models import Record
 from myhealth.models import Appointment
 from myhealth.models import Post
@@ -16,6 +16,7 @@ class UserAdmin(BaseUserAdmin):
             'is_superuser',
             'is_patient',
             'is_doctor',
+            'is_admin',
             'groups',
             'user_permissions',
         )}),
@@ -30,8 +31,8 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    list_display = ('GPNO','email', 'first_name', 'last_name', 'is_staff', 'is_patient', 'is_doctor', 'last_login')
-    list_filter = ('is_staff', 'is_superuser','is_patient', 'is_doctor', 'is_active', 'groups')
+    list_display = ('GPNO','email', 'first_name', 'last_name', 'is_staff','is_superuser', 'is_patient', 'is_doctor', 'is_admin', 'last_login')
+    list_filter = ('is_staff', 'is_superuser','is_patient', 'is_doctor', 'is_admin', 'is_active', 'groups')
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions',)
@@ -47,6 +48,10 @@ class DoctorAdmin(admin.ModelAdmin):
     list_display = ('user', 'staffID', 'gender', 'birth', 'address', 'work_address', 'tel', 'direction', 'description', 'image')
 admin.site.register(DoctorProfile,DoctorAdmin)
 
+class AdminAdmin(admin.ModelAdmin):
+    list_display = ('user', 'gender', 'birth', 'address', 'work_address', 'tel', 'image')
+admin.site.register(AdminProfile,AdminAdmin)
+
 admin.site.register(user_type)
 class RecordAdmin(admin.ModelAdmin):
     list_display = ('patient','creator','sympton', 'treatment', 'prescription', 'date_created')
@@ -60,6 +65,8 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'content','timestamp','author','featured')
 admin.site.register(Post, PostAdmin)
 
-admin.site.register(Reply)
+class ReplyAdmin(admin.ModelAdmin):
+    list_display = ('user', 'content','timestamp','post')
+admin.site.register(Reply, ReplyAdmin)
 
 
