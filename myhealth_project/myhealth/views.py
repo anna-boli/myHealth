@@ -165,6 +165,7 @@ def doctor_profile(request):
     return render(request, 'myhealth/doctorProfile.html',context)
 
 
+
 # the administrator profile page after login for updating the information
 @login_required
 def admin_profile(request):
@@ -187,6 +188,8 @@ def admin_profile(request):
     }
     return render(request, 'myhealth/adminProfile.html',context)
  
+
+
 # doctors to create records
 @login_required
 def create_record(request):   
@@ -223,6 +226,8 @@ def allowed_records(request):
     return render(request,"myhealth/recordList.html")
 
 
+
+# show records details
 @login_required
 def get_record(request, pk):
     record = get_object_or_404(Record, pk=pk)
@@ -233,7 +238,6 @@ def get_record(request, pk):
         return render(request, "myhealth/recordDetail.html", {'record':record, 'user':user})
     else:
         return redirect('/')
-
 
 
 
@@ -254,6 +258,7 @@ def patient_list(request):
         'queryset': queryset
     }
     return render(request, "myhealth/patientList.html", context=context_dict)
+
 
 
 # show all the doctors
@@ -299,8 +304,9 @@ def create_appointment(request):
     else:
         appointment_form = AppointCreationForm()
 
-
     return render(request, "myhealth/createAppointment.html", context=context_dict)
+
+
 
 # doctor delete the not booked appointment
 @login_required
@@ -342,6 +348,7 @@ def appointment_book(request, id):#activate after clicking book now button
     return redirect("patient_appointment")
 
 
+
 # display all the appointments made by this patient
 @login_required
 def patient_appointment(request):
@@ -350,6 +357,7 @@ def patient_appointment(request):
     appointment_list = Appointment.objects.all().order_by("-id").filter(appointment_with=name)
     context_dict['appoints'] = appointment_list
     return render(request, "myhealth/patientAppointment.html", context=context_dict )
+
 
 
 # display all booked appointments for the doctor
@@ -373,9 +381,7 @@ def doctor_appointment(request):
 
 
 
-
-
-
+# administrator appointments list
 @login_required
 def appointments(request):
     context_dict = {}
@@ -383,6 +389,9 @@ def appointments(request):
     context_dict['appoints'] = appointment_list
     return render(request, "myhealth/appointments.html", context=context_dict )
 
+
+
+# administrator appointments delete function
 @login_required
 def appointments_delete(request,id):
     appointment = get_object_or_404(Appointment, id=id)
@@ -392,19 +401,9 @@ def appointments_delete(request,id):
 
 
 
-
-
-
-
-
-
-
-
-
 # quick search the target post
 def search(request):
     queryset_post = Post.objects.all()
-    # queryset_user = User.objects.all()
     query = request.GET.get('q')
     if query:
         queryset_post = queryset_post.filter(
@@ -412,18 +411,15 @@ def search(request):
             Q(content__icontains=query)
         ).distinct()
 
-        # queryset_user = queryset_user.filter(
-        #     Q(first_name__icontains=query) |
-        #     Q(last_name__icontains=query)
-        # ).distinct()
     context = {
-        # 'queryset_user': queryset_user,
         'queryset_post': queryset_post
     }
     return render(request, "myhealth/searchResult.html", context)
 
 
+
 # forum for doctor-customer communication
+@login_required
 def forum(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list,4)
@@ -443,7 +439,9 @@ def forum(request):
     return render(request, "myhealth/forum.html", context)
 
 
+
 # post and reply with the forum
+@login_required
 def post(request, id):
     post = get_object_or_404(Post, id=id)
     reply_form = ReplyForm(request.POST or None)
@@ -465,7 +463,9 @@ def post(request, id):
     return render(request,"myhealth/postDetail.html",context)
 
 
+
 # create a post for patient to ask question
+@login_required
 def post_create(request):
     title ='Create'
     post_form = PostForm(request.POST or None)
@@ -487,7 +487,9 @@ def post_create(request):
     return render(request, "myhealth/createPost.html", context)
 
 
+
 # update the post
+@login_required
 def post_update(request,id):
     title ='Update'
     post = get_object_or_404(Post, id=id)
@@ -508,7 +510,9 @@ def post_update(request,id):
     return render(request, "myhealth/createPost.html", context)
 
 
+
 # delete the post
+@login_required
 def post_delete(request,id):
     title ='Delete'
     post = get_object_or_404(Post, id=id)
