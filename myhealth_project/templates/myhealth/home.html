@@ -20,6 +20,7 @@
       <div class="border-top pt-3">
         <p class="lead text-muted">Welcome, {{user.first_name}} {{user.last_name}}</p>
         <small class="text-muted">
+          <a href="{% url 'password_change' %}" class="btn btn-outline-primary">Change password</a>
           <a href="{% url 'patient_profile' %}" class="btn btn-outline-primary">Edit Profile</a>
           <a href="{% url 'record_list' %}" class="btn btn-outline-primary">Records History</a>
           <a href="{% url 'doctor_list' %}" class="btn btn-outline-primary">Make an appointment</a>
@@ -33,8 +34,9 @@
       <div class="border-top pt-3">
         <p class="lead text-muted">Welcome, {{user.first_name}} {{user.last_name}}</p>
         <small class="text-muted">
-          <a href="{% url 'doctor_appointment' %}" class="btn btn-outline-primary">Schedule</a>
+          <a href="{% url 'password_change' %}" class="btn btn-outline-primary">Change password</a>
           <a href="{% url 'doctor_profile' %}" class="btn btn-outline-primary">Edit Profile</a>
+          <a href="{% url 'doctor_appointment' %}" class="btn btn-outline-primary">Schedule</a>
           <a href="{% url 'patient_list' %}" class="btn btn-outline-primary">Create Record</a>
           <a href="{% url 'record_list' %}" class="btn btn-outline-primary">Patient Records</a>
           <a href="{% url 'create_appointment' %}" class="btn btn-outline-primary">Create Appointment</a>
@@ -47,10 +49,11 @@
       <div class="border-top pt-3">
         <p class="lead text-muted">Welcome, {{user.first_name}} {{user.last_name}}</p>
         <small class="text-muted">
+          <a href="{% url 'password_change' %}" class="btn btn-outline-primary">Change password</a>
           <a href="{% url 'admin_profile' %}" class="btn btn-outline-primary">Edit Profile</a>
-          <a href="{% url 'appointments' %}" class="btn btn-outline-primary">Appointment Management</a>
           <a href="{% url 'patient_list' %}" class="btn btn-outline-primary">Patient List</a>
           <a href="{% url 'doctor_list' %}" class="btn btn-outline-primary">Doctor List</a>
+          <a href="{% url 'appointments' %}" class="btn btn-outline-primary">Appointment Management</a>
           <a href="{% url 'forum' %}" class="btn btn-outline-primary">Forum</a>
           <a href="/admin" class="btn btn-outline-primary">Admin</a>
         </small>

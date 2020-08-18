@@ -37,10 +37,4 @@ urlpatterns = [
     path('post/<int:id>/update/', views.post_update, name='post_update'),
     path('post/<int:id>/delete/', views.post_delete, name='post_delete'),
 
-
-
-
-    # path('appointment/<int:id>/update/', views.appointment_update,name='appointment_update'),
-
-
 ]

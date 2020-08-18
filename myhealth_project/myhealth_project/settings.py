@@ -34,6 +34,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# # Reset password by sending to terminals
+# # During development only
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
 # Application definition
 
@@ -146,3 +150,11 @@ LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'myhealth.User'
+
+# email reset password by sending info to my gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ella.boli96@gmail.com'
+EMAIL_HOST_PASSWORD = 'qfpdtvttmpkozioz'
