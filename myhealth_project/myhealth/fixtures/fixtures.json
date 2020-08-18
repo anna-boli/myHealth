@@ -62,7 +62,7 @@
             "birth": "1992-08-26",
             "address": "145 Kelvingaugh Street",
             "tel": "+447845083540",
-            "image": "profile_pics/patient1_2gCr2QB.jpg",
+            "image": "profile_pics/patient.jpg",
             "user_id": 2
         }
       },
@@ -78,7 +78,7 @@
             "tel": "+447845083541",
             "direction":"Cardiology",
             "description": "Provides medical care to patients who have problems with their heart or circulation",
-            "image": "profile_pics/doctor1_3hqLpDs.jpg",
+            "image": "profile_pics/doctor.jpg",
             "user_id": 3
         }
       },
@@ -102,7 +102,6 @@
             "date": "9/19/2020",
             "time_start": "1:00pm",
             "time_end": "2:00pm",
-            "appointment_with": "Rose  LI (GPNO: 2345)",
             "user_id": 3
         }
       },

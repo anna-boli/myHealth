@@ -384,9 +384,19 @@ def doctor_appointment(request):
 # administrator appointments list
 @login_required
 def appointments(request):
-    context_dict = {}
-    appointment_list = Appointment.objects.all().order_by("user")
-    context_dict['appoints'] = appointment_list
+    queryset = Appointment.objects.all().order_by("user")
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(appointment_with__icontains=query) |
+            Q(date__icontains=query)
+        ).distinct()
+    else:
+        queryset=queryset#search end
+
+    context_dict = {
+        'queryset': queryset
+    }
     return render(request, "myhealth/appointments.html", context=context_dict )
 
 
