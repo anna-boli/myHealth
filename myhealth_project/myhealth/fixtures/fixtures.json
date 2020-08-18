@@ -102,6 +102,7 @@
             "date": "9/19/2020",
             "time_start": "1:00pm",
             "time_end": "2:00pm",
+            "appointment_with":"Rose  Wang (GPNO: 2345)",
             "user_id": 3
         }
       },
