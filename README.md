@@ -9,8 +9,10 @@ This is a website application to make a closer relationship among doctors and pa
 
 ### Local Deployment
 This guide is for user to install related environment and application on local machine to run the “myHealth” application. 
-Python version: 3.7.5
-Django version: 2.2.2
+#### Python version: 3.7.5
+#### Django version: 2.2.2
+************************************************************************************************************************************
+#### Steps:
 1.	Downloading Anaconda for Windows, macOS or Linux from:
 https://www.anaconda.com/download/ 
 
@@ -40,19 +42,16 @@ This will start up the Anaconda command prompt with the “base” environment.
 
 11.	Now you can go to `http://127.0.0.1:8000/.`
 
-Account Information:
-User Role# **patient**
-           Email: patient@myhealth.com
-           Password: bo2435638
-           
-User Role# **doctor**
-           Email: doctor@myhealth.com
-           Password: bo2435638
-           
-User Role# **administrator**
-           Email: admin@myhealth.com
-           Password: bo2435638           
-           
-Superuser for admin page:
-           Email: 2435638L@student.gla.ac.uk
-           Password: bo2435638 
+### Account Inforamtion
+
+- User Role: **Patient**
+   -  Email: patient@myhealth.com
+   -  Password: bo2435638
+   
+- User Role: **Doctor**
+   -  Email: doctor@myhealth.com
+   -  Password: bo2435638
+  
+- User Role: **Administrator**
+   -  Email: admin@myhealth.com
+   -  Password: bo2435638
