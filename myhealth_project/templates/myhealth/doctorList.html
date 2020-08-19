@@ -48,7 +48,7 @@
         <div class="col-lg-10">
             <div class="row mb-3">
                 <div class="col-sm-6 themed-grid-col">
-                    <h6><strong>Name:</strong>&nbsp;&nbsp;{{ doctor.first_name }}  {{ doctor.last_name }}</h6>
+                    <h6><strong>Name:</strong>&nbsp;&nbsp;{{ doctor.first_name }}&nbsp;&nbsp;{{ doctor.last_name }}</h6>
                 </div>
                 <div class="col-sm-6 themed-grid-col">
                     <h6><strong>Email:</strong>&nbsp;&nbsp;{{ doctor.email }}</h6>
@@ -59,21 +59,18 @@
                 <div class="col-sm-6 themed-grid-col">
                     <h6><strong>Direction:</strong>&nbsp;&nbsp;{{ doctor.doctorprofile.direction }}</h6>
                 </div>
-                {% if user.is_authenticated and user.is_patient %}
                 <div class="col-sm-6 themed-grid-col">
                     <h6><strong>Work Address:</strong>&nbsp;&nbsp;{{ doctor.doctorprofile.work_address }}</h6>
                 </div>
-                {% elif user.is_authenticated and user.is_admin %}
-                <div class="col-sm-6 themed-grid-col">
-                    <h6><strong>Address:</strong>&nbsp;&nbsp;{{ doctor.doctorprofile.address }}</h6>
-                </div>
-                {% endif %}
             </div>
 
             <div class="row mb-3">
                 {% if user.is_authenticated and user.is_admin %}
                 <div class="col-sm-6 themed-grid-col">
                     <h6><strong>Telephone:</strong>&nbsp;&nbsp;{{ doctor.doctorprofile.tel }}</h6>
+                </div>
+                <div class="col-sm-6 themed-grid-col">
+                    <h6><strong>Personal Address:</strong>&nbsp;&nbsp;{{ doctor.doctorprofile.address }}</h6>
                 </div>
                 {% endif %}
             </div>
