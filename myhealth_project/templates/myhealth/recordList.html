@@ -12,6 +12,29 @@
     </section>
 </div>
 
+<div class="row">
+    <!-- Search -->
+    {% if user.is_authenticated and user.is_patient%}
+    <div class="col-md-12">
+        <form action="{% url 'record_list' %}" class="search-form form-inline my-3 my-lg-1">
+          <input type="search" class="form-control mr-sm-2" style="width:600px;" name="q"
+            placeholder="Search by date (M/D/YYYY) or doctor name">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    {% endif %}
+    {% if user.is_authenticated and user.is_doctor%}
+    <div class="col-md-12">
+        <form action="{% url 'record_list' %}" class="search-form form-inline my-3 my-lg-1">
+          <input type="search" class="form-control mr-sm-2" style="width:600px;" name="q"
+            placeholder="Can search by date (M/D/YYYY) or GPNO or patient name">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+<br>
+
 <div class="container-fluid bg-white">
     <div class="row">
         <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
@@ -20,7 +43,6 @@
                 <table class="table">
                     <thead>
                         <tr class="text-center">
-                            <th>Record No.#</th>
                             <th>Patient GPNO</th>
                             <th>Patient Name</th>
                             <th>Doctor Name</th>
@@ -29,21 +51,22 @@
                         </tr>
                     </thead>
 
-                    {% for record in user.allowed_users.all %}
+                    {% for record in queryset %}
+                    {% if record in user.allowed_users.all %}
                     <tbody class="text-center">
                         <tr>
-                            <td>{{ record.id }}</td>
                             <td>{{ record.patient.GPNO }}</td>
                             <td>{{ record.patient.first_name }}&nbsp;&nbsp;{{ record.patient.last_name }}</td>
                             <td>{{ record.creator.user.first_name }}&nbsp;&nbsp;{{ record.creator.user.last_name }}</td>
                             <td>{{ record.date_created }}</td>
                             <td>
-                                <a href="record/{{ record.id }}">
+                                <a href="{{ record.get_absolute_url }}">
                                     <button class="btn btn-outline-primary" type="submit">Details</button>
                                 </a>
                             </td>
                         </tr>
                     </tbody>
+                    {% endif %}
                     {% endfor %}
                 </table>
             </div>

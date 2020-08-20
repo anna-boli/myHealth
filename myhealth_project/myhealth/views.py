@@ -201,18 +201,23 @@ def create_record(request):
     if request.method == 'POST':
         record_form = RecordCreationForm(request.POST)
 
+
         if record_form.is_valid():
             record = record_form.save(commit=False)
             record.patient = User.objects.get(GPNO=record_form.cleaned_data['GPNO'])
             record.creator = DoctorProfile.objects.get(staffID=request.user.doctorprofile.staffID)
             record.doctor_email =User.objects.get(email=request.user.email)
+            record.patient_name = User.objects.get(GPNO=record_form.cleaned_data['GPNO']).get_user()
+            record.doctor_name = request.user.get_user()
             record.save()
             record.allowed_users.add(User.objects.get(GPNO=record_form.cleaned_data['GPNO']))
             record.allowed_users.add(User.objects.get(email=request.user.email))
             record.save()
 
             messages.success(request, f'This patient record has created.')
-            return redirect("record_list")
+            return redirect(reverse("record_detail", kwargs={
+                'id':record_form.instance.id
+            }))
     else:
         record_form = RecordCreationForm()
 
@@ -223,21 +228,36 @@ def create_record(request):
 # show the records history to allowed users
 @login_required
 def allowed_records(request):
-    return render(request,"myhealth/recordList.html")
+    # return render(request,"myhealth/recordList.html")
+    queryset = Record.objects.all()
+    query=request.GET.get("q")#search start
+    if query:
+        queryset = queryset.filter(
+            Q(date_created__icontains=query)|
+            Q(patient_name__icontains=query)|
+            Q(doctor_name__icontains=query)
+        ).distinct()
+    else:
+        queryset=queryset#search end
 
+    context_dict = {
+        'queryset': queryset
+    }
+    return render(request, "myhealth/recordList.html", context=context_dict)
 
 
 # show records details
 @login_required
-def get_record(request, pk):
-    record = get_object_or_404(Record, pk=pk)
+def get_record(request, id):
+    record = get_object_or_404(Record, id=id)
     user = User.objects.get(email=request.user.email)
 
     # return the record if the user have authentication
     if record in user.allowed_users.all():
         return render(request, "myhealth/recordDetail.html", {'record':record, 'user':user})
     else:
-        return redirect('/')
+        messages.warning(request, f'You have no access to that record.')
+        return redirect("record_list")
 
 
 

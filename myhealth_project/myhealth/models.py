@@ -133,7 +133,6 @@ class DoctorProfile(models.Model):
     def __str__(self):
         return self.staffID
 
-
 # information about administrators' profile
 class AdminProfile(models.Model):
     user = models.OneToOneField(get_user_model(), related_name='adminprofile', on_delete=models.CASCADE)
@@ -159,6 +158,8 @@ class Record(models.Model):
     patient = models.ForeignKey(get_user_model(), related_name='record_patient_gpno', on_delete=models.CASCADE)
     creator = models.ForeignKey(DoctorProfile, related_name='record_doctor_id', on_delete=models.CASCADE)
     doctor_email = models.ForeignKey(get_user_model(), related_name='doctor_email', on_delete=models.CASCADE)
+    patient_name=models.CharField(max_length=60,blank=True)
+    doctor_name=models.CharField(max_length=60,blank=True)
     sympton = models.TextField(null=True)
     treatment = models.TextField(null=True)
     prescription = models.TextField(null=True)
@@ -166,7 +167,7 @@ class Record(models.Model):
     allowed_users = models.ManyToManyField(get_user_model(),related_name='allowed_users')
 
     class Meta:
-        ordering = ('date_created',)
+        ordering = ('-date_created',)
 
     def __str__(self):
         return self.sympton
@@ -177,6 +178,10 @@ class Record(models.Model):
     def __str__(self):
         return self.prescription
 
+    def get_absolute_url(self):
+        return reverse('record_detail',kwargs={
+            'id':self.id
+        })
 
 
 # doctor-patient appointment
