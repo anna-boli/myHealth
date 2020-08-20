@@ -151,7 +151,7 @@ class AdminProfile(models.Model):
     image = models.ImageField(default='default.jpg',upload_to='profile_pics')
 
     def __str__(self):
-        return self.tel
+        return self.user
 
 # doctor can create patient record
 class Record(models.Model):

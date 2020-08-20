@@ -48,6 +48,9 @@ def patient_register(request):
 
             profile = profile_form.save(commit=False)
             profile.user = user
+
+            if 'image' in request.FILES:
+                profile.image = request.FILES['image']
             profile.save()
 
             registered = True
@@ -77,6 +80,9 @@ def doctor_register(request):
 
             profile = profile_form.save(commit=False)
             profile.user = user
+
+            if 'image' in request.FILES:
+                profile.image = request.FILES['image']
             profile.save()
 
             registered = True
@@ -105,6 +111,9 @@ def admin_register(request):
 
             profile = profile_form.save(commit=False)
             profile.user = user
+
+            if 'image' in request.FILES:
+                profile.image = request.FILES['image']
             profile.save()
 
             registered = True
