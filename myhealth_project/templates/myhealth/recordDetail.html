@@ -25,12 +25,12 @@
         <div class="media-body my-3 p-3 bg-white rounded shadow-sm">
             <div class="row mb-3">
                 <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Patient GPNO:</strong>&nbsp;&nbsp;{{ record.patient.GPNO }}</h6>
+                    <h6><strong>Patient GPNO:</strong>&nbsp;&nbsp;{{ record.patient_email.GPNO }}</h6>
                 </div>
                 <div class="col-sm-4 themed-grid-col">
-                    <h6><strong>Patient Name:</strong>&nbsp;&nbsp;{{ record.patient.first_name }}&nbsp;&nbsp;{{ record.patient.last_name }}</h6>
+                    <h6><strong>Patient Name:</strong>&nbsp;&nbsp;{{ record.patient_email.first_name }}&nbsp;&nbsp;{{ record.patient_email.last_name }}</h6>
                 </div>
-                <div class="col-sm-4 themed-grid-col"><h6><strong>Doctor:</strong>&nbsp;&nbsp;{{ record.creator.user.first_name }}&nbsp;&nbsp;{{ record.creator.user.last_name }}</h6></div>
+                <div class="col-sm-4 themed-grid-col"><h6><strong>Doctor:</strong>&nbsp;&nbsp;{{ record.doctor_email.first_name }}&nbsp;&nbsp;{{ record.doctor_email.last_name }}</h6></div>
             </div>
             <div class="row mb-3 ">
                 <div class="col-sm-4 themed-grid-col">

@@ -213,9 +213,9 @@ def create_record(request):
 
         if record_form.is_valid():
             record = record_form.save(commit=False)
-            record.patient = User.objects.get(GPNO=record_form.cleaned_data['GPNO'])
-            record.creator = DoctorProfile.objects.get(staffID=request.user.doctorprofile.staffID)
+            record.patient_email = User.objects.get(GPNO=record_form.cleaned_data['GPNO'])
             record.doctor_email =User.objects.get(email=request.user.email)
+            record.doctor_id = DoctorProfile.objects.get(staffID=request.user.doctorprofile.staffID)
             record.patient_name = User.objects.get(GPNO=record_form.cleaned_data['GPNO']).get_user()
             record.doctor_name = request.user.get_user()
             record.save()
@@ -441,6 +441,7 @@ def appointments_delete(request,id):
 
 
 # quick search the target post
+@login_required
 def search(request):
     queryset_post = Post.objects.all()
     query = request.GET.get('q')

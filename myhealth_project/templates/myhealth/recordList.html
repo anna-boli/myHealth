@@ -55,9 +55,9 @@
                     {% if record in user.allowed_users.all %}
                     <tbody class="text-center">
                         <tr>
-                            <td>{{ record.patient.GPNO }}</td>
-                            <td>{{ record.patient.first_name }}&nbsp;&nbsp;{{ record.patient.last_name }}</td>
-                            <td>{{ record.creator.user.first_name }}&nbsp;&nbsp;{{ record.creator.user.last_name }}</td>
+                            <td>{{ record.patient_email.GPNO }}</td>
+                            <td>{{ record.patient_email.first_name }}&nbsp;&nbsp;{{ record.patient_email.last_name }}</td>
+                            <td>{{ record.doctor_email.first_name }}&nbsp;&nbsp;{{ record.doctor_email.last_name }}</td>
                             <td>{{ record.date_created }}</td>
                             <td>
                                 <a href="{{ record.get_absolute_url }}">

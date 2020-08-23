@@ -203,15 +203,15 @@
         "model": "myhealth.Record",
         "pk": 1,
         "fields": {
-            "sympton": "Have a headache, suffered from hypertension and accompanying heart problems",
-            "treatment": "Take medicine, avoid eating crude, cold and stimulating food, no tea and more rest will be needed during this period. Simple lifestyle changes can help reduce high blood pressure.",
-            "prescription": "Eat a low-fat, balanced diet",
-            "date_created": "2020-08-17 18:28:39.660066",
             "patient_name": "Rose  Wang (GPNO: 2345)",
             "doctor_name": "Kexin  Yue (GPNO: 3456)",
-            "creator_id": 1,
+            "sympton": "Have a headache, suffered from hypertension and accompanying heart problems",
+            "treatment": "Take medicine, avoid eating crude, cold and stimulating food, no tea and more rest will be needed during this period. Simple lifestyle changes can help reduce high blood pressure.",
+            "prescription": "No specific drugs. Eat a low-fat, balanced diet",
+            "date_created": "2020-08-17 18:28:39.660066",
             "doctor_email_id": 3,
-            "patient_id": 2
+            "doctor_id_id": 1,
+            "patient_email_id": 2
         }
       },
       {

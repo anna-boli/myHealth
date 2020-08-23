@@ -155,9 +155,9 @@ class AdminProfile(models.Model):
 
 # doctor can create patient record
 class Record(models.Model):
-    patient = models.ForeignKey(get_user_model(), related_name='record_patient_gpno', on_delete=models.CASCADE)
-    creator = models.ForeignKey(DoctorProfile, related_name='record_doctor_id', on_delete=models.CASCADE)
+    patient_email = models.ForeignKey(get_user_model(), related_name='record_patient_email', on_delete=models.CASCADE)
     doctor_email = models.ForeignKey(get_user_model(), related_name='doctor_email', on_delete=models.CASCADE)
+    doctor_id = models.ForeignKey(DoctorProfile, related_name='record_doctor_id', on_delete=models.CASCADE)
     patient_name=models.CharField(max_length=60,blank=True)
     doctor_name=models.CharField(max_length=60,blank=True)
     sympton = models.TextField(null=True)
@@ -171,12 +171,6 @@ class Record(models.Model):
 
     def __str__(self):
         return self.sympton
-    
-    def __str__(self):
-        return self.treatment
-
-    def __str__(self):
-        return self.prescription
 
     def get_absolute_url(self):
         return reverse('record_detail',kwargs={

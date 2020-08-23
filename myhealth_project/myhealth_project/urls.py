@@ -45,6 +45,7 @@ urlpatterns = [
     path('create_record/', views.create_record, name= 'create_record'),
     path('record_list/', views.allowed_records, name='record_list'),
     path('record/<int:id>/', views.get_record, name='record_detail'),
+
     path('create_appointment/', views.create_appointment, name='create_appointment'),
     path('appointment/<int:id>/delete/', views.appointment_delete,name='appointment_delete'),
     path('make_appointment/', views.make_appointment, name='make_appointment'),   
@@ -52,7 +53,7 @@ urlpatterns = [
     path('patient_appointment/', views.patient_appointment,name='patient_appointment'),
     path('doctor_appointment/', views.doctor_appointment,name='doctor_appointment'),
     path('appointments/', views.appointments,name='appointments'),
-    path('appointments/<int:id>/delete/', views.appointments_delete,name='appointments_delete'),
+    path('appointments/<int:id>/delete/', views.appointments_delete, name='appointments_delete'),
     
     path('forum/', views.forum, name='forum'),
     path('search/', views.search, name='search'),
