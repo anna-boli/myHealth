@@ -45,7 +45,7 @@
       </div>
 
       <!-- Administrator Menu -->
-      {% elif user.is_authenticated and user.is_admin %}
+      {% elif user.is_authenticated and user.is_admin and user.is_staff and user.is_superuser %}
       <div class="border-top pt-3">
         <p class="lead text-muted">Welcome, {{user.first_name}} {{user.last_name}}</p>
         <small class="text-muted">
@@ -55,9 +55,20 @@
           <a href="{% url 'doctor_list' %}" class="btn btn-outline-primary">Doctor List</a>
           <a href="{% url 'appointments' %}" class="btn btn-outline-primary">Appointment Management</a>
           <a href="{% url 'forum' %}" class="btn btn-outline-primary">Forum</a>
-          <a href="/admin" class="btn btn-outline-primary">Admin</a>
+          <a href="/admin" class="btn btn-outline-primary">Admin-Database</a>
         </small>
       </div>
+
+      <!-- Superuser Menu for database -->
+      {% elif user.is_authenticated and user.is_staff and user.is_superuser %}
+      <div class="border-top pt-3">
+        <p class="lead text-muted">Welcome, {{user.first_name}} {{user.last_name}}</p>
+        <small class="text-muted">
+          <a href="{% url 'password_change' %}" class="btn btn-outline-primary">Change Password</a>
+          <a href="/admin" class="btn btn-outline-primary">Admin-Database</a>
+        </small>
+      </div>
+
       {% else %}
       <div class="border-top pt-3">
         <small class="text-muted">
