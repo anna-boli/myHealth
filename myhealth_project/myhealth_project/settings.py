@@ -32,7 +32,7 @@ SECRET_KEY = 'e)qk$clxi8@jrwwtx4hv5+=ye*)bj2u*%3le@i0huyvwy7#)u@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['myhealth.pythonanywhere.com']
 
 # # Reset password by sending to terminals
 # # During development only
