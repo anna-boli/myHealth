@@ -237,7 +237,6 @@ def create_record(request):
 # show the records history to allowed users
 @login_required
 def allowed_records(request):
-    # return render(request,"myhealth/recordList.html")
     queryset = Record.objects.all()
     query=request.GET.get("q")#search start
     if query:
