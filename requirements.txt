@@ -18,7 +18,7 @@ mccabe==0.6.1
 oauthlib==3.0.1
 olefile==0.46
 pep8==1.7.1
-Pillow @ file:///C:/ci/pillow_1594298234712/work
+Pillow==7.0.0
 pycodestyle==2.5.0
 pylint==2.3.1
 python3-openid==3.1.0
