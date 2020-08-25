@@ -11,7 +11,7 @@ from myhealth.models import Reply
 #  patient registration form
 class PatientForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number, the maximum length of GP number is 10 digits', max_length=10,required=True)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     
@@ -34,7 +34,7 @@ class PatientForm(UserCreationForm):
 #  doctor registration form
 class DoctorForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number, the maximum length of GP number is 10 digits', max_length=10,required=True)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     
@@ -57,7 +57,7 @@ class DoctorForm(UserCreationForm):
 #  administrator registration form
 class AdminForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number, the maximum length of GP number is 10 digits', max_length=10,required=True)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     
@@ -111,7 +111,7 @@ class PatientProfileForm(forms.ModelForm):
 
 #  update the doctor's profile form
 class DoctorProfileForm(forms.ModelForm):
-    staffID = forms.CharField(label='ID',help_text='Please enter the vaild number', max_length=10)
+    staffID = forms.CharField(label='ID',help_text='Please enter the vaild number, the maximum length is 10 digits', max_length=10)
 
     GENDER_CHOICES = (
         (0, '------------'),
