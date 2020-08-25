@@ -82,9 +82,9 @@ class AdminForm(UserCreationForm):
 #  user update information
 class UserUpadteForm(forms.ModelForm):
     email = forms.EmailField()
-    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True)
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
+    GPNO = forms.CharField(label='GP number',help_text='Please enter the vaild number', max_length=10,required=True, widget = forms.TextInput(attrs={'readonly':'readonly'}))
+    first_name = forms.CharField(max_length=30, widget = forms.TextInput(attrs={'readonly':'readonly'}))
+    last_name = forms.CharField(max_length=30, widget = forms.TextInput(attrs={'readonly':'readonly'}))
 
     class Meta:
         model = get_user_model()
