@@ -205,7 +205,7 @@
         "fields": {
             "patient_name": "Rose  Wang (GPNO: 2345)",
             "doctor_name": "Kexin  Yue (GPNO: 3456)",
-            "sympton": "Have a headache, suffered from hypertension and accompanying heart problems",
+            "symptom": "Have a headache, suffered from hypertension and accompanying heart problems",
             "treatment": "Take medicine, avoid eating crude, cold and stimulating food, no tea and more rest will be needed during this period. Simple lifestyle changes can help reduce high blood pressure.",
             "prescription": "No specific drugs. Eat a low-fat, balanced diet",
             "date_created": "2020-08-17 18:28:39.660066",

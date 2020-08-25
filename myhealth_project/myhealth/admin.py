@@ -53,7 +53,7 @@ class AdminAdmin(admin.ModelAdmin):
 admin.site.register(AdminProfile,AdminAdmin)
 
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ('patient_name','doctor_name','sympton', 'treatment', 'prescription', 'date_created')
+    list_display = ('patient_name','doctor_name','symptom', 'treatment', 'prescription', 'date_created')
 admin.site.register(Record, RecordAdmin)
 
 class AppointAdmin(admin.ModelAdmin):

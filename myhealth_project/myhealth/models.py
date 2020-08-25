@@ -160,7 +160,7 @@ class Record(models.Model):
     doctor_id = models.ForeignKey(DoctorProfile, related_name='record_doctor_id', on_delete=models.CASCADE)
     patient_name=models.CharField(max_length=60,blank=True)
     doctor_name=models.CharField(max_length=60,blank=True)
-    sympton = models.TextField(null=True)
+    symptom = models.TextField(null=True)
     treatment = models.TextField(null=True)
     prescription = models.TextField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -170,7 +170,7 @@ class Record(models.Model):
         ordering = ('-date_created',)
 
     def __str__(self):
-        return self.sympton
+        return self.symptom
 
     def get_absolute_url(self):
         return reverse('record_detail',kwargs={

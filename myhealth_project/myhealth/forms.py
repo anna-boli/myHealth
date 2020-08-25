@@ -155,13 +155,13 @@ class AdminProfileForm(forms.ModelForm):
 #  patient record form
 class RecordCreationForm(forms.ModelForm):
     GPNO = forms.CharField(label='Patient GPNO',help_text='Please enter this patient GP number', max_length=10)
-    sympton = forms.CharField(max_length=500, widget=forms.Textarea())
+    symptom = forms.CharField(max_length=500, widget=forms.Textarea())
     treatment = forms.CharField(max_length=500, widget=forms.Textarea())
     prescription = forms.CharField(max_length=500, widget=forms.Textarea())
     
     class Meta:
         model = Record
-        fields = ('GPNO','sympton','treatment','prescription',)
+        fields = ('GPNO','symptom','treatment','prescription',)
 
 
 #  appointment creation by doctor
