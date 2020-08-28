@@ -197,6 +197,9 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     featured = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('-timestamp',)
         
     def __str__(self):
         return self.title
@@ -226,6 +229,9 @@ class Reply(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     post = models.ForeignKey(Post, related_name='replys', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-timestamp',)
 
     def __str__(self):
         return self.user.email
