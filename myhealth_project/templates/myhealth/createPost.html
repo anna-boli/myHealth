@@ -14,7 +14,7 @@
 
     <div class="content-section">
       <h4>Please enter the post details</h4>
-        <form id="create_post_form" method="POST" action="{% url 'post_create' %}" enctype = "multipart/form-data">
+        <form id="create_post_form" method="POST" action="." enctype = "multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
                 {{ post_form|crispy }}
