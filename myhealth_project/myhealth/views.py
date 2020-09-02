@@ -340,10 +340,15 @@ def create_appointment(request):
 @login_required
 def appointment_delete(request,id):
     appointment = get_object_or_404(Appointment, id=id)
-    appointment.delete()
-    messages.success(request, f'You have delete this appointment.')
-    return redirect(reverse("create_appointment"))
+    if request.method =='POST':
+        appointment.delete()
+        messages.success(request, f'You have delete this appointment.')
+        return redirect(reverse("create_appointment"))
+    context = {
+        'object':appointment
+    }
 
+    return render(request, "myhealth/deleteAppointment.html", context)
 
 
 # patients select/make an appointment
@@ -433,9 +438,15 @@ def appointments(request):
 @login_required
 def appointments_delete(request,id):
     appointment = get_object_or_404(Appointment, id=id)
-    appointment.delete()
-    messages.success(request, f'You have delete this appointment.')
-    return redirect(reverse("appointments"))
+    if request.method =='POST':
+        appointment.delete()
+        messages.success(request, f'You have delete this appointment.')
+        return redirect(reverse("appointments"))
+    context = {
+        'object':appointment
+    }
+
+    return render(request, "myhealth/deleteAppointment.html", context)
 
 
 

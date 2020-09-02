@@ -1,0 +1,63 @@
+{% extends "myhealth/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+- Delete Appointment
+{% endblock %}
+
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <section class="text-center">
+            <h3>Delete this Appointment</h3>
+        </section>
+    </div>
+    <div>
+        <div class="table-responsive bg-white">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Doctor Image</th>
+                <th>Doctor Name</th>
+                <th>Direction</th>
+                <th>Date</th>
+                <th>Time</th>
+                {% if user.is_authenticated and user.is_admin and object.appointment_with != '' %}
+                <th>Book Information</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img class="card_image" style="height:50px; width:50px; margin-top: 0px;"
+                  src="{{object.user.doctorprofile.image.url}}"></td>
+                <td>{{object.user.first_name}} {{object.user.last_name}}</td>
+                <td>{{object.user.doctorprofile.direction}}</td>
+                <td>{{object.date}}</td>
+                <td>{{object.time_start}} - {{object.time_end}}</td>
+                {% if user.is_authenticated and user.is_admin and object.appointment_with != '' %}
+                <td><button title="Already booked, Not editable" type="button" class="btn btn-primary">Booked by&nbsp;&nbsp;{{object.appointment_with}}</button></td>
+                {% endif %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    <div class="content-section">
+        <form id="post_form" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <br>
+                <h4> Are you sure you want to delete this appointment?</h4>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                {% if user.is_authenticated and user.is_doctor %}
+                <a class="btn btn-outline-secondary" href="{% url 'create_appointment' %}">Cancel</a>
+                {% elif user.is_authenticated and user.is_admin %}
+                <a class="btn btn-outline-secondary" href="{% url 'appointments' %}">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+{% endblock content %}
