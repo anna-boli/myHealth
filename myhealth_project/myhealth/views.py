@@ -387,7 +387,7 @@ def appointment_book(request, id):#activate after clicking book now button
 def patient_appointment(request):
     context_dict = {}
     name=request.user.get_user()
-    appointment_list = Appointment.objects.all().order_by("-id").filter(appointment_with=name)
+    appointment_list = Appointment.objects.all().order_by("date").filter(appointment_with=name)
     context_dict['appoints'] = appointment_list
     return render(request, "myhealth/patientAppointment.html", context=context_dict )
 
@@ -397,11 +397,12 @@ def patient_appointment(request):
 @login_required
 def doctor_appointment(request):
     name=request.user.get_user()
-    appointment_list = Appointment.objects.all().order_by("-id").filter(user=request.user)
+    appointment_list = Appointment.objects.all().order_by("date").filter(user=request.user)
     queryset = appointment_list
     query=request.GET.get("q")#search start
     if query:
         queryset = queryset.filter(
+            Q(appointment_with__icontains=query) |
             Q(date__icontains=query)
         ).distinct()
     else:
