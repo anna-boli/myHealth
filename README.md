@@ -11,7 +11,7 @@ https://myhealth.pythonanywhere.com/
 ************************************************************************************************************************************
 
 ### Local Deployment
-This guide is for user to install related environment and application on local machine to run the “myHealth” application. 
+This guide is for user to install related environment and application on local machine to run the “MyHealth” application. 
 #### Python version: 3.7.5
 #### Django version: 2.2.2
 ************************************************************************************************************************************
