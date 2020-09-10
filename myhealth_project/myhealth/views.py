@@ -313,7 +313,7 @@ def doctor_list(request):
 @login_required
 def create_appointment(request):
     context_dict = {}
-    appoints= Appointment.objects.all().order_by("date").filter(user=request.user)
+    appoints= Appointment.objects.all().order_by("appointment_with").filter(user=request.user)
     context_dict['appoints'] = appoints
     context_dict['appointment_form'] = AppointCreationForm()
     if request.method == 'POST':
